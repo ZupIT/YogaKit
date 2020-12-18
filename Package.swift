@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
@@ -6,28 +6,27 @@ let package = Package(
     platforms: [
         .iOS(.v8),
         .tvOS(.v10),
-        .macOS(.v10_7),
+        .macOS(.v10_10),
         .watchOS(.v2)
     ],
     products: [
-        .library(name: "Yoga", type: .dynamic, targets: ["Yoga"]),
-        .library(name: "Yogakit", type: .dynamic, targets: ["YogaKit"])
+        .library(name: "Yoga", targets: ["Yoga"]),
     ],
     dependencies: [
     ],
     targets: [
         .target(
             name: "Yoga",
-            dependencies: [
+            dependencies: [],
+            path: "./yoga",
+            publicHeadersPath: "./swiftpm-support",
+            cxxSettings: [
+                .headerSearchPath("../"),
             ],
-            path: "./src/Source"
+            linkerSettings: [
+                .linkedFramework("Foundation"),
+            ]
         ),
-        .target(
-            name: "YogaKit",
-            dependencies: [
-                "Yoga"
-            ],
-            path: "./src/Source"
-        )
-    ]
+    ],
+    cxxLanguageStandard: .cxx14
 )
